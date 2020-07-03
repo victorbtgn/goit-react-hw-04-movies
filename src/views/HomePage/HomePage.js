@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { homePageApiRequest } from '../../services/api-service';
+import { NavLink } from 'react-router-dom';
+import { getApiTrendingFilms } from '../../services/api-service';
 
 class HomePage extends Component {
   state = {
@@ -7,7 +8,7 @@ class HomePage extends Component {
   };
 
   componentWillMount() {
-    homePageApiRequest().then(data => this.setState({ films: data }));
+    getApiTrendingFilms().then(data => this.setState({ films: data }));
   }
 
   render() {
@@ -16,10 +17,15 @@ class HomePage extends Component {
         <h1>Trending today</h1>
         <ul>
           {this.state.films.map(({ id, title, poster_path }) => (
-            <li key={id}>
-              <h2>{title}</h2>
-              <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} />
-            </li>
+            <NavLink key={id} to={`/movies/${id}`}>
+              <li>
+                <p>{title}</p>
+                <img
+                  src={`https://image.tmdb.org/t/p/w200/${poster_path}`}
+                  alt=""
+                />
+              </li>
+            </NavLink>
           ))}
         </ul>
       </>

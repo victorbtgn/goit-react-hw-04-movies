@@ -5,28 +5,26 @@ import MoviesPage from './views/MoviesPage/MoviesPage';
 import MovieDetailsPage from './views/MovieDetailsPage/MovieDetailsPage';
 import './App.css';
 
-function App() {
-  return (
-    <>
-      <ul>
-        <li>
-          <NavLink exact to="/">
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/movies">Movies</NavLink>
-        </li>
-      </ul>
+const App = () => (
+  <>
+    <ul>
+      <li>
+        <NavLink exact to="/">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/movies">Movies</NavLink>
+      </li>
+    </ul>
 
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/movies" component={MoviesPage} />
-        <Route path="/movies/:movieId" component={MovieDetailsPage} />
-        <Route component={HomePage} />
-      </Switch>
-    </>
-  );
-}
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/movies/:movieId" component={MovieDetailsPage} />
+      <Route path="/movies" component={MoviesPage} />
+      <Route component={HomePage} />
+    </Switch>
+  </>
+);
 
 export default App;
