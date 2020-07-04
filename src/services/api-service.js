@@ -27,9 +27,18 @@ const getApiFilmReviews = id =>
     .then(res => res.data.results)
     .catch(error => error);
 
+const getApiSearchFilms = query =>
+  axios
+    .get(
+      `/search/movie?api_key=${apiKey}&language=en-US&query=${query}&page=1&include_adult=false`,
+    )
+    .then(res => res.data.results)
+    .catch(error => error);
+
 export {
   getApiTrendingFilms,
   getApiFilmById,
   getApiFilmCredit,
   getApiFilmReviews,
+  getApiSearchFilms,
 };
