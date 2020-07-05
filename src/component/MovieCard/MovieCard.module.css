@@ -1,0 +1,14 @@
+.MovieCard {
+  width: 200px;
+}
+
+.link {
+  text-decoration: none;
+  color: #2d2c30;
+  transition: 0.2s linear;
+}
+
+.link:hover {
+  box-shadow: 0 0 10px #493586;
+  transition: 0.2s linear;
+}
