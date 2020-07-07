@@ -1,0 +1,17 @@
+.Navigation {
+  display: inline-block;
+}
+
+.Link {
+  text-decoration: none;
+  font-size: 30px;
+  color: #460457;
+}
+
+.Link:not(:last-child) {
+  margin-right: 20px;
+}
+
+.activeLink {
+  color: #8d0ab4;
+}

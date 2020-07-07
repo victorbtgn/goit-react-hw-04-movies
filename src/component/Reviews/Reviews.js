@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getApiFilmReviews } from '../../services/api-service';
 import ReviewsItem from './ReviewsItem';
+import styles from './Reviews.module.css';
 
 class Reviews extends Component {
   state = {
@@ -17,7 +18,7 @@ class Reviews extends Component {
     const { reviews } = this.state;
 
     return (
-      <ul>
+      <ul className={styles.Reviews}>
         {reviews.length > 0 ? (
           reviews.map(({ id, author, content }) => (
             <ReviewsItem key={id} author={author} content={content} />

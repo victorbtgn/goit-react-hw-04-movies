@@ -1,0 +1,56 @@
+.MovieDetailsPage {
+  font-size: 16px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.MovieDetailsPage > hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.moviePreview {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.poster {
+  margin-bottom: 30px;
+  margin-right: 50px;
+}
+
+.title {
+  font-size: 30px;
+  color: #3b3a3b;
+  margin-bottom: 20px;
+}
+
+.overview {
+  margin-bottom: 20px;
+}
+
+.genres:not(:last-child) {
+  margin-right: 10px;
+}
+
+.Link {
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: #460457;
+}
+
+.Link:hover,
+.Link:focus {
+  color: #8d0ab4;
+}
+
+.Link:not(:last-child) {
+  margin-right: 20px;
+}
+
+.activeLink {
+  color: #8d0ab4;
+}

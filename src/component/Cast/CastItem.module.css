@@ -1,0 +1,10 @@
+.CastItem {
+  width: 150px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.CastItem > span {
+  font-size: 14px;
+  font-weight: 700;
+}

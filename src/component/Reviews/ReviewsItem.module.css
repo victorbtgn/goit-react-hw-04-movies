@@ -1,0 +1,20 @@
+.ReviewsItem {
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.title {
+  color: #3b3a3b;
+  margin-bottom: 15px;
+}
+
+.review {
+  display: block;
+  height: 65px;
+  overflow: hidden;
+}
+
+.review:hover,
+.review:focus {
+  height: auto;
+}

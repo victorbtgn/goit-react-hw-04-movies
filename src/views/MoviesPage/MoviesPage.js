@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getApiSearchFilms } from '../../services/api-service';
 import MovieCard from '../../component/MovieCard';
+import styles from './MoviesPage.module.css';
 
 class MoviesPage extends Component {
   state = {
@@ -50,20 +51,23 @@ class MoviesPage extends Component {
 
     return (
       <>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} className={styles.form}>
           <input
             type="text"
             autoFocus
             autoComplete="off"
             onChange={this.inputChange}
+            placeholder="Choose a movie title"
+            className={styles.input}
           />
-          <button type="submit">Search</button>
+          <button type="submit" className={styles.btn}>
+            Search
+          </button>
         </form>
 
         {found ? (
           <>
-            <h1>Search movies</h1>
-            <ul>
+            <ul className={styles.MoviesPage}>
               <MovieCard films={this.state.films} />
             </ul>
           </>

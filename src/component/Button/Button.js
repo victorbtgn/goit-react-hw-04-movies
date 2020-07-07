@@ -1,8 +1,13 @@
 import React from 'react';
 import routes from '../../routes';
+import styles from './Button.module.css';
 
 const Button = ({ location, history }) => (
-  <button type="button" onClick={() => handleGoBack(location, history)}>
+  <button
+    type="button"
+    onClick={() => handleGoBack(location, history)}
+    className={styles.Button}
+  >
     Go back
   </button>
 );

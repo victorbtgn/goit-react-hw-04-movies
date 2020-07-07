@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getApiTrendingFilms } from '../../services/api-service';
 import MovieCard from '../../component/MovieCard';
+import styles from './HomePage.module.css';
 
 class HomePage extends Component {
   state = {
@@ -8,14 +9,16 @@ class HomePage extends Component {
   };
 
   componentWillMount() {
-    getApiTrendingFilms().then(data => this.setState({ films: data }));
+    getApiTrendingFilms().then(data => {
+      this.setState({ films: data });
+    });
   }
 
   render() {
     return (
       <>
-        <h1>Trending today</h1>
-        <ul>
+        <h1 className={styles.HomePageTitle}>Trending today</h1>
+        <ul className={styles.HomePageList}>
           <MovieCard films={this.state.films} />
         </ul>
       </>

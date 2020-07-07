@@ -1,0 +1,20 @@
+.Button {
+  display: block;
+  width: 200px;
+  height: 30px;
+  background: transparent;
+  border: 2px solid #8d0ab4;
+  border-radius: 15px;
+  outline: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: #8d0ab4;
+  margin-bottom: 30px;
+  transition: 0.2s linear;
+}
+
+.Button:hover,
+.Button:focus {
+  background-color: #eee094;
+  transition: 0.2s linear;
+}
