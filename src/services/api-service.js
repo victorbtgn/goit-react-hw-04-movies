@@ -2,6 +2,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 const apiKey = 'c628e1f4ee6d648cd246b11c1f5a031b';
+const posterUrl = imageSize => `https://image.tmdb.org/t/p/w${imageSize}`;
 
 const getApiTrendingFilms = () =>
   axios
@@ -36,6 +37,7 @@ const getApiSearchFilms = query =>
     .catch(error => error);
 
 export {
+  posterUrl,
   getApiTrendingFilms,
   getApiFilmById,
   getApiFilmCredit,

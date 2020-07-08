@@ -47,14 +47,8 @@
   grid-gap: 16px;
 }
 
-.MoviesPage > li {
-  margin: 0 auto 20px;
-}
-
-.MoviesPage > li img {
-  margin-bottom: 10px;
-}
-
-.MoviesPage > li p {
-  font-size: 16px;
+.alert {
+  display: block;
+  text-align: center;
+  font-size: 20px;
 }

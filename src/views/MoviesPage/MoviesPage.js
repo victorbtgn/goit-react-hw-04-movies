@@ -30,6 +30,10 @@ class MoviesPage extends Component {
   onSubmit = evt => {
     evt.preventDefault();
 
+    if (!this.state.query) {
+      return;
+    }
+
     getApiSearchFilms(this.state.query).then(data => {
       if (data.length === 0) {
         this.setState({ found: false });
@@ -47,7 +51,7 @@ class MoviesPage extends Component {
   };
 
   render() {
-    const { found } = this.state;
+    const { found, films } = this.state;
 
     return (
       <>
@@ -66,13 +70,18 @@ class MoviesPage extends Component {
         </form>
 
         {found ? (
-          <>
-            <ul className={styles.MoviesPage}>
-              <MovieCard films={this.state.films} />
-            </ul>
-          </>
+          <div className={styles.MoviesPage}>
+            {films.map(({ id, title, poster_path }) => (
+              <MovieCard
+                key={id}
+                id={id}
+                title={title}
+                poster_path={poster_path}
+              />
+            ))}
+          </div>
         ) : (
-          <span>Not found.</span>
+          <span className={styles.alert}>Not found.</span>
         )}
       </>
     );

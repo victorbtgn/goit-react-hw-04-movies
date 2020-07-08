@@ -1,7 +1,9 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import { getApiFilmById } from '../../services/api-service';
+import { posterUrl, getApiFilmById } from '../../services/api-service';
 import Button from '../../component/Button/Button';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import styles from './MovieDetailsPage.module.css';
 
 const Cast = lazy(
@@ -17,39 +19,44 @@ const Reviews = lazy(
 
 class MovieDetailsPage extends Component {
   state = {
-    title: null,
-    poster_path: null,
-    overview: null,
-    release_date: '',
-    popularity: 0,
+    movie: {
+      title: '',
+      poster_path: '',
+      overview: '',
+      release_date: '',
+      popularity: 0,
+      genres: [],
+      budget: 0,
+    },
     filmId: null,
-    genres: [],
-    budget: 0,
+    pathName: '',
   };
 
   componentWillMount() {
     const filmId = this.props.match.params.movieId;
-    const location = this.props.location.state;
+    const pathName = this.props.location.state.from.pathname;
 
-    this.setState({ filmId: filmId, location: location });
+    this.setState({ filmId: filmId, pathName: pathName });
 
     getApiFilmById(filmId).then(data =>
-      this.setState(prevState => ({ ...prevState, ...data })),
+      this.setState({
+        movie: {
+          title: data.title,
+          poster_path: data.poster_path,
+          overview: data.overview,
+          release_date: data.release_date,
+          popularity: data.popularity,
+          genres: data.genres,
+          budget: data.budget,
+        },
+      }),
     );
   }
 
   render() {
-    const {
-      title,
-      poster_path,
-      overview,
-      release_date,
-      popularity,
-      genres,
-      budget,
-    } = this.state;
+    const { movie, pathName } = this.state;
     const { match, location, history } = this.props;
-    const year = release_date.substring(0, 4);
+    const year = movie.release_date.substring(0, 4);
 
     return (
       <section className={styles.MovieDetailsPage}>
@@ -57,59 +64,65 @@ class MovieDetailsPage extends Component {
 
         <div className={styles.moviePreview}>
           <img
-            src={`https://image.tmdb.org/t/p/w400/${poster_path}`}
-            alt={title}
+            src={`${posterUrl(400)}/${movie.poster_path}`}
+            alt={movie.title}
             className={styles.poster}
           />
           <div>
             <h1 className={styles.title}>
-              {title} ({year})
+              {movie.title} ({year})
             </h1>
             <p className={styles.overview}>
-              User Score: {Math.ceil(popularity)}&#37;
+              User Score: {Math.ceil(movie.popularity)}&#37;
             </p>
             <h2>Overview</h2>
-            <p className={styles.overview}>{overview}</p>
+            <p className={styles.overview}>{movie.overview}</p>
             <h2>Genres</h2>
             <p className={styles.overview}>
-              {genres.map(genre => (
+              {movie.genres.map(genre => (
                 <span key={genre.name} className={styles.genres}>
                   {genre.name}
                 </span>
               ))}
             </p>
-            <h2>Budget: {budget.toLocaleString('ru-RU')}&#36;</h2>
+            <h2>Budget: {movie.budget.toLocaleString('ru-RU')}&#36;</h2>
           </div>
         </div>
 
-        <hr />
+        <div className={styles.AdditionalInfo}>
+          <h2>Additional information</h2>
 
-        <h2>Additional information</h2>
+          <div className={styles.LinkBlock}>
+            <NavLink
+              to={{
+                pathname: `${match.url}/cast`,
+                state: { from: pathName },
+              }}
+              className={styles.Link}
+              activeClassName={styles.activeLink}
+            >
+              Cast
+            </NavLink>
+            <NavLink
+              to={{
+                pathname: `${match.url}/reviews`,
+                state: { from: pathName },
+              }}
+              className={styles.Link}
+              activeClassName={styles.activeLink}
+            >
+              Reviews
+            </NavLink>
+          </div>
+        </div>
 
-        <NavLink
-          to={{
-            pathname: `${match.url}/cast`,
-            state: { from: location },
-          }}
-          className={styles.Link}
-          activeClassName={styles.activeLink}
+        <Suspense
+          fallback={
+            <div className="Loader">
+              <Loader type="Oval" color="#8d0ab4" width={100} />
+            </div>
+          }
         >
-          Cast
-        </NavLink>
-        <NavLink
-          to={{
-            pathname: `${match.url}/reviews`,
-            state: { from: location },
-          }}
-          className={styles.Link}
-          activeClassName={styles.activeLink}
-        >
-          Reviews
-        </NavLink>
-
-        <hr />
-
-        <Suspense fallback={<h2>Loading...</h2>}>
           <Route
             path={`${match.path}/cast`}
             render={props => {
