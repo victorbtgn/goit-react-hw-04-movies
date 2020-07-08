@@ -10,7 +10,7 @@ class HomePage extends Component {
     films: [],
   };
 
-  componentWillMount() {
+  componentDidMount() {
     getApiTrendingFilms().then(data => {
       this.setState({ films: data });
       this.slider();
