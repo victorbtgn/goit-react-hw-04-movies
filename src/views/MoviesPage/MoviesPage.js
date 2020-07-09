@@ -2,26 +2,26 @@ import React, { Component } from 'react';
 import { getApiSearchFilms } from '../../services/api-service';
 import MovieCard from '../../component/MovieCard';
 import styles from './MoviesPage.module.css';
+import queryString from 'query-string';
 
 class MoviesPage extends Component {
   state = {
     query: '',
     films: [],
-    found: true,
   };
 
   componentDidMount() {
-    if (this.props.getMoviePageList) {
-      this.setState({ films: this.props.getMoviePageList });
-      this.props.setMoviePageList([]);
+    const query = queryString.parse(this.props.location.search).query;
+    if (query) {
+      getApiSearchFilms(query).then(res => this.setState({ films: res }));
     }
   }
 
-  componentWillUnmount() {
-    if (this.state.films.length > 0) {
-      this.props.setMoviePageList(this.state.films);
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.location.search !== this.props.location.search) {
+  //     console.log('Search');
+  //   }
+  // }
 
   inputChange = ({ currentTarget: { value } }) => {
     this.setState({ query: value });
@@ -29,18 +29,11 @@ class MoviesPage extends Component {
 
   onSubmit = evt => {
     evt.preventDefault();
-
     if (!this.state.query) {
       return;
     }
-
     getApiSearchFilms(this.state.query).then(data => {
-      if (data.length === 0) {
-        this.setState({ found: false });
-        return;
-      }
-
-      this.setState({ films: data, found: true });
+      this.setState({ films: data });
     });
 
     this.reset();
@@ -51,8 +44,7 @@ class MoviesPage extends Component {
   };
 
   render() {
-    const { found, films } = this.state;
-
+    const { films } = this.state;
     return (
       <>
         <form onSubmit={this.onSubmit} className={styles.form}>
@@ -68,8 +60,7 @@ class MoviesPage extends Component {
             Search
           </button>
         </form>
-
-        {found ? (
+        {films ? (
           <div className={styles.MoviesPage}>
             {films.map(({ id, title, poster_path }) => (
               <MovieCard
@@ -87,5 +78,4 @@ class MoviesPage extends Component {
     );
   }
 }
-
 export default MoviesPage;
