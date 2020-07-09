@@ -28,15 +28,20 @@ class MovieDetailsPage extends Component {
       genres: [],
       budget: 0,
     },
+    locationGoBack: {},
     filmId: null,
     pathName: '',
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const filmId = this.props.match.params.movieId;
     const pathName = this.props.location.state.from.pathname;
 
-    this.setState({ filmId: filmId, pathName: pathName });
+    this.setState({
+      filmId: filmId,
+      pathName: pathName,
+      locationGoBack: this.props.location,
+    });
 
     getApiFilmById(filmId).then(data =>
       this.setState({
@@ -54,13 +59,13 @@ class MovieDetailsPage extends Component {
   }
 
   render() {
-    const { movie, pathName } = this.state;
-    const { match, location, history } = this.props;
+    const { movie, pathName, locationGoBack } = this.state;
+    const { match, history } = this.props;
     const year = movie.release_date.substring(0, 4);
 
     return (
       <section className={styles.MovieDetailsPage}>
-        <Button location={location} history={history} />
+        <Button location={locationGoBack} history={history} />
 
         <div className={styles.moviePreview}>
           <img

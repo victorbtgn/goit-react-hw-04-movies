@@ -3,7 +3,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { posterUrl } from '../../services/api-service';
 import styles from './MovieCard.module.css';
 
-const MovieCard = ({ id, title, poster_path, location }) => {
+const MovieCard = ({ locationSearch, id, title, poster_path, location }) => {
   return (
     <>
       {poster_path && (
@@ -11,6 +11,7 @@ const MovieCard = ({ id, title, poster_path, location }) => {
           <NavLink
             to={{
               pathname: `/movies/${id}`,
+              search: locationSearch,
               state: { from: location },
             }}
             className={styles.link}

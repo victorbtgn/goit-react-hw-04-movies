@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getApiSearchFilms } from '../../services/api-service';
 import MovieCard from '../../component/MovieCard';
+import SearchBar from '../../component/SearchBar';
 import styles from './MoviesPage.module.css';
 import queryString from 'query-string';
 
@@ -17,53 +18,31 @@ class MoviesPage extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.location.search !== this.props.location.search) {
-  //     console.log('Search');
-  //   }
-  // }
-
-  inputChange = ({ currentTarget: { value } }) => {
-    this.setState({ query: value });
-  };
-
-  onSubmit = evt => {
-    evt.preventDefault();
-    if (!this.state.query) {
-      return;
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.query !== this.state.query) {
+      getApiSearchFilms(this.state.query).then(data => {
+        this.setState({ films: data });
+      });
     }
-    getApiSearchFilms(this.state.query).then(data => {
-      this.setState({ films: data });
-    });
+  }
 
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState({ query: '' });
+  formSubmit = query => {
+    this.setState({ query: query });
+    this.props.history.push({ search: `query=${query}` });
   };
 
   render() {
     const { films } = this.state;
+
     return (
       <>
-        <form onSubmit={this.onSubmit} className={styles.form}>
-          <input
-            type="text"
-            autoFocus
-            autoComplete="off"
-            onChange={this.inputChange}
-            placeholder="Choose a movie title"
-            className={styles.input}
-          />
-          <button type="submit" className={styles.btn}>
-            Search
-          </button>
-        </form>
+        <SearchBar onSubmit={this.formSubmit} />
+
         {films ? (
           <div className={styles.MoviesPage}>
             {films.map(({ id, title, poster_path }) => (
               <MovieCard
+                locationSearch={this.props.location.search}
                 key={id}
                 id={id}
                 title={title}

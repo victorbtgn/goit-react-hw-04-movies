@@ -8,7 +8,7 @@ class Cast extends Component {
     cast: [],
   };
 
-  componentWillMount() {
+  componentDidMount() {
     getApiFilmCredit(this.props.id).then(cast => {
       let filterCast = cast.filter(cast => cast.profile_path);
       this.setState({ cast: filterCast });
